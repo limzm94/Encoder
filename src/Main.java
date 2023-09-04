@@ -1,5 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Encoder encoder = new Encoder();
+        System.out.println(encoder.encode("HELLO WORLD?"));
+        System.out.println(encoder.decode("C/GGJ RJMG.?"));
     }
 }
