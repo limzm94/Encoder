@@ -1,15 +1,9 @@
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class Encoder {
     int offset;
     Random random = new Random();
-    /*char[] reference = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-            'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7',
-            '8', '9', '(', ')', '*', '+', ',', '-', '.', '/'};*/
 
     List<Character> reference = List.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
@@ -17,12 +11,8 @@ public class Encoder {
             '8', '9', '(', ')', '*', '+', ',', '-', '.', '/');
 
 
-    public Encoder() {
-        //offset = random.nextInt(44);
-        offset = 5;
-    }
-
     public String encode(String plainText) {
+        offset = random.nextInt(44);
         StringBuilder encodedText = new StringBuilder();
         encodedText.append(reference.get(offset));
 
@@ -49,9 +39,10 @@ public class Encoder {
 
     public String decode(String plainText) {
         StringBuilder decodedText = new StringBuilder();
+        offset = reference.indexOf(plainText.charAt(0));
 
         // loop through the message
-        for (int i = 0; i < plainText.length(); i++) {
+        for (int i = 1; i < plainText.length(); i++) {
             char textChar = plainText.charAt(i);
             if (reference.contains(textChar)) {
                 // find out what's the charAt(i) and then find out the index of the char in reference table
@@ -60,7 +51,7 @@ public class Encoder {
                 if (textIndex + offset <= 43) {
                     decodedText.append(reference.get(textIndex + offset));
                 } else {
-                    decodedText.append(reference.get(44 - textIndex + offset));
+                    decodedText.append(reference.get(textIndex + offset - 44));
                 }
             } else {
                 // if the char is empty space or not in reference table
