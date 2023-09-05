@@ -2,27 +2,25 @@ import java.util.List;
 import java.util.Random;
 
 public class Encoder {
-    int offset;
+    private int offset;
     Random random = new Random();
 
-    List<Character> reference = List.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+    private final List<Character> reference = List.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
             'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7',
             '8', '9', '(', ')', '*', '+', ',', '-', '.', '/');
 
 
     public String encode(String plainText) {
-        offset = random.nextInt(44);
+        offset = random.nextInt(44); //generate random offset value
         StringBuilder encodedText = new StringBuilder();
         encodedText.append(reference.get(offset));
 
-        // loop through the message
         for (int i = 0; i < plainText.length(); i++) {
-            char textChar = plainText.charAt(i);
+            char textChar = plainText.charAt(i); //plainText's char at index i
             if (reference.contains(textChar)) {
-                // find out what's the charAt(i) and then find out the index of the char in reference table
-                int textIndex = reference.indexOf(textChar);
-                // check if the offset char will out of bound
+                int textIndex = reference.indexOf(textChar); //char's position in reference table
+                //check if the offset char will be out of bound
                 if (textIndex - offset >= 0) {
                     encodedText.append(reference.get(textIndex - offset));
                 } else {
@@ -33,21 +31,18 @@ public class Encoder {
                 encodedText.append(textChar);
             }
         }
-
         return encodedText.toString();
     }
 
     public String decode(String plainText) {
         StringBuilder decodedText = new StringBuilder();
-        offset = reference.indexOf(plainText.charAt(0));
+        offset = reference.indexOf(plainText.charAt(0)); // get offset value from the first char
 
-        // loop through the message
         for (int i = 1; i < plainText.length(); i++) {
-            char textChar = plainText.charAt(i);
+            char textChar = plainText.charAt(i); //plainText's char at index i
             if (reference.contains(textChar)) {
-                // find out what's the charAt(i) and then find out the index of the char in reference table
-                int textIndex = reference.indexOf(textChar);
-                // check if the offset char will out of bound
+                int textIndex = reference.indexOf(textChar); //char's position in reference table
+                // check if the offset char will be out of bound
                 if (textIndex + offset <= 43) {
                     decodedText.append(reference.get(textIndex + offset));
                 } else {
@@ -58,9 +53,6 @@ public class Encoder {
                 decodedText.append(textChar);
             }
         }
-
         return decodedText.toString();
     }
-
-
 }
